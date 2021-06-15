@@ -15,19 +15,20 @@ export default function SimpleForm ({ submissions, setSubmissions }) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
     reset
-  } = useForm()
+  } = useForm({ mode: 'onBlur' })
   const inputRef = useRef(null)
   const onSubmit = data => {
     setSubmissions([...submissions, { id: uuidv4(), data }])
-    reset()
-    console.log(inputRef)
     inputRef.current && inputRef.current.focus()
+    reset()
   }
   const { ref: formRef, ...rest } = register('firstName', {
     required: { value: true, message: 'First Name is required' }
   })
+
+  console.log(errors, isDirty)
 
   return (
     <Box
@@ -96,8 +97,8 @@ export default function SimpleForm ({ submissions, setSubmissions }) {
           {errors.note && errors.note.message}
         </FormErrorMessage>
       </FormControl>
-      <Button mt={5} type='submit'>
-        Submit
+      <Button isDisabled={!isDirty || !isValid} mt={5} type='submit'>
+        Add User
       </Button>
     </Box>
   )

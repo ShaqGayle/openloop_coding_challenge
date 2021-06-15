@@ -39,17 +39,21 @@ export default function SubmissionsList ({ submissions, deleteSubmission }) {
       overflowY='scroll'
       borderRadius='xl'
     >
-      {submissions.map(({ id, data }, index) => {
-        return (
-          <SubmissionItem
-            key={id}
-            id={id}
-            data={data}
-            deleteSub={deleteSubmission}
-            index={index}
-          />
-        )
-      })}
+      {submissions.length ? (
+        submissions.map(({ id, data }, index) => {
+          return (
+            <SubmissionItem
+              key={id}
+              id={id}
+              data={data}
+              deleteSub={deleteSubmission}
+              index={index}
+            />
+          )
+        })
+      ) : (
+        <Text>No Users yet</Text>
+      )}
     </Stack>
   )
 }
